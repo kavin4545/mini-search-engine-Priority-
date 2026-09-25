@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Student Mini Search Engine</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#f3f6fb;color:#172033}
+header{background:#0b2a4a;color:#fff;padding:20px}.wrap{max-width:1050px;margin:auto;padding:18px}
+.card{background:#fff;border-radius:14px;padding:18px;margin:16px 0;box-shadow:0 3px 14px #0001}
+.login{max-width:420px;margin:65px auto}input,button{font-size:16px;padding:11px;border-radius:9px;border:1px solid #ccd5e0}
+input{width:100%;margin:6px 0 12px}button{background:#0b2a4a;color:#fff;border:0;cursor:pointer;margin:4px}.secondary{background:#64748b}
+.nav{display:flex;flex-wrap:wrap;gap:5px}.hidden{display:none!important}.msg{padding:11px;border-radius:8px;background:#eef4ff;margin-top:12px}.error{background:#fee2e2;color:#991b1b}
+.search{display:flex;gap:8px}.search input{flex:1}table{width:100%;border-collapse:collapse;margin-top:14px}th,td{padding:10px;border-bottom:1px solid #e5e7eb;text-align:left}th{background:#eef3f8}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.stat{padding:15px;background:#eef4ff;border-radius:10px}
+@media(max-width:650px){.grid{grid-template-columns:1fr}.search{flex-direction:column}table{font-size:14px}}
+</style></head>
+<body>
+<div id="login" class="wrap login"><div class="card">
+<h2>🔐 Student Search Engine</h2><p>Login to access the DSA student search system.</p>
+<label for="username">Username</label><input id="username" placeholder="Enter username" autocomplete="username">
+<label for="password">Password</label><input id="password" type="password" placeholder="Enter password" autocomplete="current-password">
+<button onclick="login()">Login</button><div id="loginMsg"></div>
+<p style="font-size:13px;color:#64748b">Demo login: <b>admin</b> / <b>admin123</b></p>
+</div></div>
+<div id="app" class="hidden"><header><div class="wrap"><h1>Student Mini Search Engine</h1><p>DSA • Searching • Grade-Based Priority Queue / Max Heap • Student Records</p></div></header>
+<main class="wrap"><div class="nav">
+<button onclick="show('search')">Search</button><button onclick="show('students')">Students</button>
+<button onclick="show('heap')">Priority Queue / Max Heap</button><button onclick="show('performance')">Performance</button>
+<button class="secondary" onclick="logout()">Logout</button></div>
+
+<section id="search" class="card"><h2>🔎 Search Student</h2>
+<div class="search"><input id="q" placeholder="Search name, roll no, marks (e.g. 77), grade (e.g. B), or 'all performance'"><button onclick="searchStudents()">Search</button></div>
+<div id="results"></div></section>
+
+<section id="students" class="card hidden"><h2>👨‍🎓 Student Details</h2>
+<p>Complete range: <b>4126251401 → 4126251446</b> (46 students)</p>
+<table><thead><tr><th>S.No</th><th>Student Name</th><th>Roll No</th><th>Marks</th><th>Grade</th></tr></thead><tbody><tr><td>1</td><td>Arun Kumar</td><td>4126251401</td><td>78</td><td>A</td></tr><tr><td>2</td><td>Bala Murugan</td><td>4126251402</td><td>84</td><td>A+</td></tr><tr><td>3</td><td>Charan Raj</td><td>4126251403</td><td>71</td><td>A</td></tr><tr><td>4</td><td>Dinesh Kumar</td><td>4126251404</td><td>89</td><td>A+</td></tr><tr><td>5</td><td>Ezhil Arasan</td><td>4126251405</td><td>76</td><td>A</td></tr><tr><td>6</td><td>Farhan Ali</td><td>4126251406</td><td>92</td><td>S</td></tr><tr><td>7</td><td>Gokul Raj</td><td>4126251407</td><td>68</td><td>B+</td></tr><tr><td>8</td><td>Hari Prasad</td><td>4126251408</td><td>81</td><td>A+</td></tr><tr><td>9</td><td>Ishan Kumar</td><td>4126251409</td><td>74</td><td>A</td></tr><tr><td>10</td><td>Jeevan Raj</td><td>4126251410</td><td>87</td><td>A+</td></tr><tr><td>11</td><td>Karthik S</td><td>4126251411</td><td>79</td><td>A</td></tr><tr><td>12</td><td>Lokesh Kumar</td><td>4126251412</td><td>66</td><td>B+</td></tr><tr><td>13</td><td>Manoj Kumar</td><td>4126251413</td><td>91</td><td>S</td></tr><tr><td>14</td><td>Naveen Raj</td><td>4126251414</td><td>58</td><td>C+</td></tr><tr><td>15</td><td>Pradeep Kumar</td><td>4126251415</td><td>85</td><td>A+</td></tr><tr><td>16</td><td>Rahul S</td><td>4126251416</td><td>77</td><td>A</td></tr><tr><td>17</td><td>Sanjay Kumar</td><td>4126251417</td><td>94</td><td>S</td></tr><tr><td>18</td><td>Tamil Selvan</td><td>4126251418</td><td>70</td><td>B+</td></tr><tr><td>19</td><td>Udhay Kumar</td><td>4126251419</td><td>65</td><td>B</td></tr><tr><td>20</td><td>Vignesh R</td><td>4126251420</td><td>60</td><td>C+</td></tr><tr><td>21</td><td>Vijay Kumar</td><td>4126251421</td><td>55</td><td>C</td></tr><tr><td>22</td><td>Yogesh Raj</td><td>4126251422</td><td>49</td><td>U</td></tr><tr><td>23</td><td>Abinash K</td><td>4126251423</td><td>69</td><td>B+</td></tr><tr><td>24</td><td>Bharath M</td><td>4126251424</td><td>64</td><td>B</td></tr><tr><td>25</td><td>Chandru S</td><td>4126251425</td><td>59</td><td>C+</td></tr><tr><td>26</td><td>Deepak R</td><td>4126251426</td><td>54</td><td>C</td></tr><tr><td>27</td><td>Elango P</td><td>4126251427</td><td>45</td><td>U</td></tr><tr><td>28</td><td>Ganesh Kumar</td><td>4126251428</td><td>68</td><td>B+</td></tr><tr><td>29</td><td>Harish S</td><td>4126251429</td><td>63</td><td>B</td></tr><tr><td>30</td><td>Imran A</td><td>4126251430</td><td>58</td><td>C+</td></tr><tr><td>31</td><td>Jagan Kumar</td><td>4126251431</td><td>53</td><td>C</td></tr><tr><td>32</td><td>Kishore R</td><td>4126251432</td><td>40</td><td>U</td></tr><tr><td>33</td><td>Logesh P</td><td>4126251433</td><td>67</td><td>B+</td></tr><tr><td>34</td><td>Madhan S</td><td>4126251434</td><td>62</td><td>B</td></tr><tr><td>35</td><td>Nithin Kumar</td><td>4126251435</td><td>57</td><td>C+</td></tr><tr><td>36</td><td>Om Prakash</td><td>4126251436</td><td>52</td><td>C</td></tr><tr><td>37</td><td>Praveen R</td><td>4126251437</td><td>35</td><td>U</td></tr><tr><td>38</td><td>Ranjith K</td><td>4126251438</td><td>66</td><td>B+</td></tr><tr><td>39</td><td>Sathish M</td><td>4126251439</td><td>61</td><td>B</td></tr><tr><td>40</td><td>Surya P</td><td>4126251440</td><td>56</td><td>C+</td></tr><tr><td>41</td><td>Tharun Kumar</td><td>4126251441</td><td>51</td><td>C</td></tr><tr><td>42</td><td>Vasanth R</td><td>4126251442</td><td>30</td><td>U</td></tr><tr><td>43</td><td>Wasim A</td><td>4126251443</td><td>69</td><td>B+</td></tr><tr><td>44</td><td>Yashwanth K</td><td>4126251444</td><td>64</td><td>B</td></tr><tr><td>45</td><td>Zakir Hussain</td><td>4126251445</td><td>74</td><td>A</td></tr><tr><td>46</td><td>Ajay Kumar</td><td>4126251446</td><td>87</td><td>A+</td></tr></tbody></table></section>
+
+<section id="heap" class="card hidden"><h2>🏆 Grade-Based Priority Queue / Max Heap</h2>
+<table><thead><tr><th>Grade</th><th>Marks</th><th>Priority</th></tr></thead><tbody>
+<tr><td>S</td><td>91–100</td><td>1 (Highest)</td></tr><tr><td>A+</td><td>81–90</td><td>2</td></tr>
+<tr><td>A</td><td>71–80</td><td>3</td></tr><tr><td>B+</td><td>66–70</td><td>4</td></tr>
+<tr><td>B</td><td>61–65</td><td>5</td></tr><tr><td>C+</td><td>56–60</td><td>6</td></tr>
+<tr><td>C</td><td>50–55</td><td>7</td></tr><tr><td>U</td><td>Below 50</td><td>8 (Lowest)</td></tr>
+</tbody></table>
+<p>Higher grade has higher priority. If two students have the same grade, higher marks come first.</p>
+<button onclick="runHeap()">Run Demonstration</button><div id="heapResult"></div></section>
+
+<section id="performance" class="card hidden"><h2>⚡ Performance Comparison</h2>
+<div class="grid"><div class="stat"><b>Linear Search</b><br>O(n)</div><div class="stat"><b>Max-Heap Insertion</b><br>O(log n)</div><div class="stat"><b>Max-Heap Extraction</b><br>O(log n)</div></div>
+<button onclick="runPerformance()">Run Test</button><div id="perfResult"></div></section>
+<section class="card"><h2>Project Flow</h2><p>Student Name / Roll No → Search → Matching Student → Details</p><p>Marks → Grade → Grade-Based Priority Queue → Highest Grade First</p></section>
+</main></div>
+
+<script>
+const students = [{name:'Arun Kumar',roll:'4126251401',marks:78,grade:'A'},{name:'Bala Murugan',roll:'4126251402',marks:84,grade:'A+'},{name:'Charan Raj',roll:'4126251403',marks:71,grade:'A'},{name:'Dinesh Kumar',roll:'4126251404',marks:89,grade:'A+'},{name:'Ezhil Arasan',roll:'4126251405',marks:76,grade:'A'},{name:'Farhan Ali',roll:'4126251406',marks:92,grade:'S'},{name:'Gokul Raj',roll:'4126251407',marks:68,grade:'B+'},{name:'Hari Prasad',roll:'4126251408',marks:81,grade:'A+'},{name:'Ishan Kumar',roll:'4126251409',marks:74,grade:'A'},{name:'Jeevan Raj',roll:'4126251410',marks:87,grade:'A+'},{name:'Karthik S',roll:'4126251411',marks:79,grade:'A'},{name:'Lokesh Kumar',roll:'4126251412',marks:66,grade:'B+'},{name:'Manoj Kumar',roll:'4126251413',marks:91,grade:'S'},{name:'Naveen Raj',roll:'4126251414',marks:58,grade:'C+'},{name:'Pradeep Kumar',roll:'4126251415',marks:85,grade:'A+'},{name:'Rahul S',roll:'4126251416',marks:77,grade:'A'},{name:'Sanjay Kumar',roll:'4126251417',marks:94,grade:'S'},{name:'Tamil Selvan',roll:'4126251418',marks:70,grade:'B+'},{name:'Udhay Kumar',roll:'4126251419',marks:65,grade:'B'},{name:'Vignesh R',roll:'4126251420',marks:60,grade:'C+'},{name:'Vijay Kumar',roll:'4126251421',marks:55,grade:'C'},{name:'Yogesh Raj',roll:'4126251422',marks:49,grade:'U'},{name:'Abinash K',roll:'4126251423',marks:69,grade:'B+'},{name:'Bharath M',roll:'4126251424',marks:64,grade:'B'},{name:'Chandru S',roll:'4126251425',marks:59,grade:'C+'},{name:'Deepak R',roll:'4126251426',marks:54,grade:'C'},{name:'Elango P',roll:'4126251427',marks:45,grade:'U'},{name:'Ganesh Kumar',roll:'4126251428',marks:68,grade:'B+'},{name:'Harish S',roll:'4126251429',marks:63,grade:'B'},{name:'Imran A',roll:'4126251430',marks:58,grade:'C+'},{name:'Jagan Kumar',roll:'4126251431',marks:53,grade:'C'},{name:'Kishore R',roll:'4126251432',marks:40,grade:'U'},{name:'Logesh P',roll:'4126251433',marks:67,grade:'B+'},{name:'Madhan S',roll:'4126251434',marks:62,grade:'B'},{name:'Nithin Kumar',roll:'4126251435',marks:57,grade:'C+'},{name:'Om Prakash',roll:'4126251436',marks:52,grade:'C'},{name:'Praveen R',roll:'4126251437',marks:35,grade:'U'},{name:'Ranjith K',roll:'4126251438',marks:66,grade:'B+'},{name:'Sathish M',roll:'4126251439',marks:61,grade:'B'},{name:'Surya P',roll:'4126251440',marks:56,grade:'C+'},{name:'Tharun Kumar',roll:'4126251441',marks:51,grade:'C'},{name:'Vasanth R',roll:'4126251442',marks:30,grade:'U'},{name:'Wasim A',roll:'4126251443',marks:69,grade:'B+'},{name:'Yashwanth K',roll:'4126251444',marks:64,grade:'B'},{name:'Zakir Hussain',roll:'4126251445',marks:74,grade:'A'},{name:'Ajay Kumar',roll:'4126251446',marks:87,grade:'A+'}];
+
+function login(){
+  const username = document.getElementById('username').value.trim();
+  const password = document.getElementById('password').value;
+  const msg = document.getElementById('loginMsg');
+  if(username === 'admin' && password === 'admin123'){
+    sessionStorage.setItem('loggedIn','1');
+    openApp();
+  } else {
+    msg.className='msg error';
+    msg.textContent='Invalid username or password.';
+  }
+}
+function openApp(){
+  document.getElementById('login').classList.add('hidden');
+  document.getElementById('app').classList.remove('hidden');
+}
+function logout(){sessionStorage.removeItem('loggedIn');location.reload();}
+function show(id){['search','students','heap','performance'].forEach(x=>document.getElementById(x).classList.toggle('hidden',x!==id));}
+const gradeRank={S:1,'A+':2,A:3,'B+':4,B:5,'C+':6,C:7,U:8};
+const gradeOrder=['S','A+','A','B+','B','C+','C','U'];
+function gradeFromMarks(m){
+  if(m>=91)return'S';if(m>=81)return'A+';if(m>=71)return'A';if(m>=66)return'B+';
+  if(m>=61)return'B';if(m>=56)return'C+';if(m>=50)return'C';return'U';
+}
+function renderList(list){
+  return '<table><thead><tr><th>S.No</th><th>Student Name</th><th>Roll No</th><th>Marks</th><th>Grade</th></tr></thead><tbody>'+
+    list.map((s,i)=>`<tr><td>${i+1}</td><td>${s.name}</td><td>${s.roll}</td><td>${s.marks}</td><td>${s.grade}</td></tr>`).join('')+
+    '</tbody></table>';
+}
+function searchStudents(){
+  const raw=document.getElementById('q').value.trim();
+  const q=raw.toLowerCase();
+  const box=document.getElementById('results');
+  if(!q){box.innerHTML='<div class="msg">Enter a name, roll number, marks, grade, or \'all performance\'.</div>';return;}
+
+  // 1) "all performance" -> everyone grouped by grade priority
+  if(q==='all performance'||q==='all'||q==='performance'){
+    const sorted=[...students].sort((x,y)=>gradeRank[x.grade]-gradeRank[y.grade]||y.marks-x.marks);
+    box.innerHTML='<div class="msg"><b>All students by grade priority (S → A+ → A → B+ → B → C+ → C → U):</b></div>'+
+      renderList(sorted);
+    return;
+  }
+
+  // 2) exact grade match (S, A+, A, B+, B, C+, C, U)
+  const gradeMatch=gradeOrder.find(g=>g.toLowerCase()===q);
+  if(gradeMatch){
+    const list=students.filter(s=>s.grade===gradeMatch).sort((x,y)=>y.marks-x.marks);
+    if(!list.length){box.innerHTML=`<div class="msg error">No students found in grade ${gradeMatch}.</div>`;return;}
+    box.innerHTML=`<div class="msg"><b>Grade ${gradeMatch}:</b> ${list.length} student(s) found.</div>`+renderList(list);
+    return;
+  }
+
+  // 3) numeric marks -> find that grade band, show count + members of that grade
+  if(/^\d+(\.\d+)?$/.test(q)){
+    const marks=parseFloat(q);
+    const grade=gradeFromMarks(marks);
+    const list=students.filter(s=>s.grade===grade).sort((x,y)=>y.marks-x.marks);
+    box.innerHTML=`<div class="msg">Marks <b>${marks}</b> falls in grade <b>${grade}</b>. ${list.length} student(s) in grade ${grade}.</div>`+
+      renderList(list);
+    return;
+  }
+
+  // 4) fallback: name or roll number search
+  const a=students.filter(s=>s.name.toLowerCase().includes(q)||s.roll.includes(q));
+  if(!a.length){box.innerHTML='<div class="msg error">No matching student found.</div>';return;}
+  box.innerHTML=renderList(a);
+}
+function runHeap(){
+  const rank={S:1,'A+':2,A:3,'B+':4,B:5,'C+':6,C:7,U:8};
+  const a=[...students].sort((x,y)=>rank[x.grade]-rank[y.grade] || y.marks-x.marks);
+  document.getElementById('heapResult').innerHTML='<div class="msg"><b>Priority Queue output:</b><br>'+
+    a.slice(0,10).map((s,i)=>`${i+1}. ${s.name} — ${s.roll} — ${s.marks} marks — Grade ${s.grade} — Priority ${rank[s.grade]}`).join('<br>')+
+    '<br><br><b>Priority order:</b> S → A+ → A → B+ → B → C+ → C → U</div>';
+}
+function runPerformance(){
+  const target=students[Math.floor(Math.random()*students.length)].roll;
+  const start=performance.now();students.find(s=>s.roll===target);const elapsed=performance.now()-start;
+  document.getElementById('perfResult').innerHTML='<div class="msg">Linear search tested for <b>'+target+'</b>. Time: '+elapsed.toFixed(4)+' ms.<br><br>Theoretical: O(n) search, O(log n) heap insertion/extraction.</div>';
+}
+if(sessionStorage.getItem('loggedIn')==='1') openApp();
+document.getElementById('q').addEventListener('keydown',e=>{if(e.key==='Enter')searchStudents();});
+</script></body></html>
